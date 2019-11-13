@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="shortcut icon" href="">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script>
+
+        featureDataTemplate = (feature) => {
+          return `
+          <div style="max-width: 50%; margin: 10px; padding: 10px; border: solid;">
+            <p>Id: ${feature["id"]}</p>
+            <p>Type: ${feature["type"]}</p>
+            <p>Geometry:
+              <ul>
+                <li>Type: ${feature["geometry"]["type"]}</li>
+                <li>Coordinates: ${feature["geometry"]["coordinates"]}</li>
+              </ul>
+            </p>
+            <p>Properties:
+              <ul>
+                <li>Wikpedia: ${feature["properties"]["wikipedia"]}</li>
+                <li>City: ${feature["properties"]["city"]}</li>
+              </ul>
+            </p>
+         </div>
+        `
+        } ;
+
+        $(document).ready(function(){
+
+          $.ajax({
+              url: "/data",
+              dataType: "json",
+              success: function(result){
+
+            $.each(result["FeatureData"], function( index, value ) {
+              $( "#root" ).append( featureDataTemplate(value) );
+            });
+
+          }});
+        });
+    </script>
+</body>
+</html>
